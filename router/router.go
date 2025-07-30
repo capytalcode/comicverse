@@ -10,8 +10,8 @@ import (
 	"forge.capytal.company/capytalcode/project-comicverse/service"
 	"forge.capytal.company/capytalcode/project-comicverse/templates"
 	"forge.capytal.company/loreddev/x/smalltrip"
-	"forge.capytal.company/loreddev/x/smalltrip/exception"
 	"forge.capytal.company/loreddev/x/smalltrip/middleware"
+	"forge.capytal.company/loreddev/x/smalltrip/problem"
 	"forge.capytal.company/loreddev/x/tinyssert"
 )
 
@@ -100,8 +100,10 @@ func (router *router) setup() http.Handler {
 		r.Use(middleware.DisableCache())
 	}
 
-	r.Use(exception.PanicMiddleware())
-	r.Use(exception.Middleware())
+	r.Use(problem.PanicMiddleware())
+	// TODO: when the HandlerDevpage is completed on the problem package, we
+	// will provide it a custom template here:
+	// r.Use(problem.Middleware())
 
 	userController := newUserController(userControllerCfg{
 		UserService:  router.userService,
@@ -127,7 +129,7 @@ func (router *router) setup() http.Handler {
 
 		err := router.templates.ExecuteTemplate(w, "landing", nil)
 		if err != nil {
-			exception.InternalServerError(err).ServeHTTP(w, r)
+			problem.NewInternalServerError(err).ServeHTTP(w, r)
 		}
 	})
 

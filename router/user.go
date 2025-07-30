@@ -7,8 +7,8 @@ import (
 
 	"forge.capytal.company/capytalcode/project-comicverse/service"
 	"forge.capytal.company/capytalcode/project-comicverse/templates"
-	"forge.capytal.company/loreddev/x/smalltrip/exception"
 	"forge.capytal.company/loreddev/x/smalltrip/middleware"
+	"forge.capytal.company/loreddev/x/smalltrip/problem"
 	"forge.capytal.company/loreddev/x/tinyssert"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
@@ -60,39 +60,38 @@ func (ctrl userController) login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		err := ctrl.templates.ExecuteTemplate(w, "login", nil)
 		if err != nil {
-			exception.InternalServerError(err).ServeHTTP(w, r)
+			problem.NewInternalServerError(err).ServeHTTP(w, r)
 		}
 		return
 	}
 	if r.Method != http.MethodPost {
-		exception.MethodNotAllowed([]string{http.MethodGet, http.MethodPost}).
-			ServeHTTP(w, r)
+		problem.NewMethodNotAllowed([]string{http.MethodGet, http.MethodPost}).ServeHTTP(w, r)
 		return
 	}
 
 	username, passwd := r.FormValue("username"), r.FormValue("password")
 	if username == "" {
-		exception.BadRequest(errors.New(`missing "username" form value`)).ServeHTTP(w, r)
+		problem.NewBadRequest(`Missing "username" form value`).ServeHTTP(w, r)
 		return
 	}
 	if passwd == "" {
-		exception.BadRequest(errors.New(`missing "password" form value`)).ServeHTTP(w, r)
+		problem.NewBadRequest(`Missing "password" form value`).ServeHTTP(w, r)
 		return
 	}
 
 	// TODO: Move token issuing to it's own service, make UserService.Login just return the user
 	user, err := ctrl.userSvc.Login(username, passwd)
 	if errors.Is(err, service.ErrNotFound) {
-		exception.NotFound(exception.WithError(errors.New("user not found"))).ServeHTTP(w, r)
+		problem.NewNotFound().ServeHTTP(w, r)
 		return
 	} else if err != nil {
-		exception.InternalServerError(err).ServeHTTP(w, r)
+		problem.NewInternalServerError(err).ServeHTTP(w, r)
 		return
 	}
 
 	token, err := ctrl.tokenSvc.Issue(user)
 	if err != nil {
-		exception.InternalServerError(err).ServeHTTP(w, r)
+		problem.NewInternalServerError(err).ServeHTTP(w, r)
 		return
 	}
 
@@ -115,38 +114,38 @@ func (ctrl userController) register(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		err := ctrl.templates.ExecuteTemplate(w, "register", nil)
 		if err != nil {
-			exception.InternalServerError(err).ServeHTTP(w, r)
+			problem.NewInternalServerError(err).ServeHTTP(w, r)
 		}
 		return
 	}
 
 	if r.Method != http.MethodPost {
-		exception.MethodNotAllowed([]string{http.MethodGet, http.MethodPost}).ServeHTTP(w, r)
+		problem.NewMethodNotAllowed([]string{http.MethodGet, http.MethodPost}).ServeHTTP(w, r)
 		return
 	}
 
 	username, passwd := r.FormValue("username"), r.FormValue("password")
 	if username == "" {
-		exception.BadRequest(errors.New(`missing "username" form value`)).ServeHTTP(w, r)
+		problem.NewBadRequest(`Missing "username" form value`).ServeHTTP(w, r)
 		return
 	}
 	if passwd == "" {
-		exception.BadRequest(errors.New(`missing "password" form value`)).ServeHTTP(w, r)
+		problem.NewBadRequest(`Missing "password" form value`).ServeHTTP(w, r)
 		return
 	}
 
 	user, err := ctrl.userSvc.Register(username, passwd)
 	if errors.Is(err, service.ErrUsernameAlreadyExists) || errors.Is(err, service.ErrPasswordTooLong) {
-		exception.BadRequest(err).ServeHTTP(w, r)
+		problem.NewBadRequest(err.Error()).ServeHTTP(w, r)
 		return
 	} else if err != nil {
-		exception.InternalServerError(err).ServeHTTP(w, r)
+		problem.NewInternalServerError(err).ServeHTTP(w, r)
 		return
 	}
 
 	token, err := ctrl.tokenSvc.Issue(user)
 	if err != nil {
-		exception.InternalServerError(err).ServeHTTP(w, r)
+		problem.NewInternalServerError(err).ServeHTTP(w, r)
 		return
 	}
 
@@ -214,15 +213,14 @@ func (ctx UserContext) Unathorize(w http.ResponseWriter, r *http.Request) {
 	// Since we use HTMX, we can't just return a redirect response probably,
 	// the framework will just get the login page html and not redirect the user to the page.
 
-	msg := `The "Authorization" header or "authorization" cookie must be present with a valid token`
-	var excep exception.Exception
+	var p problem.Problem
 	if err, ok := ctx.GetTokenErr(); ok {
-		excep = exception.Unathorized(msg, exception.WithError(err))
+		p = problem.NewUnauthorized(problem.AuthSchemeBearer, problem.WithError(err))
 	} else {
-		excep = exception.Unathorized(msg)
+		p = problem.NewUnauthorized(problem.AuthSchemeBearer)
 	}
 
-	excep.ServeHTTP(w, r)
+	p.ServeHTTP(w, r)
 }
 
 func (ctx UserContext) GetUserID() (uuid.UUID, bool) {
