@@ -49,6 +49,19 @@ build: build/assets
 run: build
 	./.dist/app
 
+epub/example:
+	cd ./.epub/example; zip ./example.epub ./META-INF/container.xml ./OEBPS/* ./OEBPS/**/* ./mimetype
+
+epub/example/server:
+	cd ./.epub/example; http-server
+
+calibre:
+	mkdir -p ./tmp/calibre-library
+	calibre \
+		--no-update-check \
+		--with-library=./tmp/calibre-library \
+		./.epub/example/example.epub
+
 clean:
 	# Remove generated directories
 	if [[ -d ".dist" ]]; then rm -r ./.dist; fi

@@ -1,0 +1,49 @@
+.body {
+  -epub-writing-mode: horizontal-tb;
+  -webkit-writing-mode: horizontal-tb;
+  /* direction: ltr; */
+  direction: rtl;
+  writing-mode: horizontal-tb;
+
+  max-width: 100vw;
+}
+
+[data-ipub-element="page"] {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+[data-ipub-element="image"] {
+  width: var(--ipub-width, unset);
+  height: var(--ipub-width, unset);
+}
+
+[data-ipub-element="interaction"] {
+  position: absolute;
+  left: var(--ipub-x, 0%);
+  top: var(--ipub-y, 0%);
+  border-radius: var(--ipub-radius, unset);
+  width: var(--ipub-width, var(--ipub-size, unset));
+  height: var(--ipub-height, var(--ipub-size, unset));
+  transform: translate(
+    var(--ipub-origin-offset-x, 0%),
+    var(--ipub-origin-offset-y, 0%)
+  );
+  /* 
+  * The opacity would be, by default, zero. Here it is 0.3 for easier debugging and
+  * showing of the example ebook 
+  */
+  background-color: red;
+  opacity: 0.3;
+}
+
+a[data-ipub-element="interaction"] {
+  /* The text inside the interaction anchor are for accessibility purposes */
+  font-size: 0px;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}

@@ -45,6 +45,12 @@
 
           # S3
           awscli
+
+          # ePUB
+          http-server
+          calibre
+          zip
+          unzip
         ];
       };
     });
