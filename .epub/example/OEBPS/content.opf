@@ -6,7 +6,7 @@
     <dc:creator>Unknown Author</dc:creator>
     <dc:language>en</dc:language>
     <meta property="dcterms:modified">2025-07-31T15:14:16Z</meta>
-    <meta content="LibreOffice/25.2.5.2$Linux_X86_64 LibreOffice_project/03d19516eb2e1dd5d4ccd751a0d6f35f35e08022 (libepubgen/0.1.1)" name="generator"/>
+    <meta property="rendition:layout">pre-paginated</meta>
   </metadata>
   <manifest>
     <item href="images/image0001.png" id="image0001" media-type="image/png"/>
