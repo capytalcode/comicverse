@@ -13,7 +13,9 @@
     <item href="images/image0002.png" id="image0002" media-type="image/png"/>
     <item href="images/image0003.png" id="image0003" media-type="image/png"/>
     <item href="images/image0004.png" id="image0004" media-type="image/png"/>
+    <item href="audios/audio0001.wav" id="audio0001" media-type="audio/wav"/>
     <item href="styles/stylesheet.css" id="stylesheet.css" media-type="text/css"/>
+    <item href="scripts/ipub.js" id="ipub.js" media-type="application/javascript"/>
     <item href="toc.ncx" id="toc.ncx" media-type="application/x-dtbncx+xml"/>
     <item href="toc.xhtml" id="toc.xhtml" media-type="application/xhtml+xml" properties="nav"/>
     <item href="sections/section0001.xhtml" id="section0001" media-type="application/xhtml+xml"/>
@@ -22,4 +24,3 @@
     <itemref idref="section0001"/>
   </spine>
 </package>
-
