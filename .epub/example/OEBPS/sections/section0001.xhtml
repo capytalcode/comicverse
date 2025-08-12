@@ -1,63 +1,64 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta name="x-ipub-version" content="1.0"/>
-    <link href="../styles/stylesheet.css" rel="stylesheet" type="text/css"/>
+    <meta name="x-ipub-version" content="1.0" />
+    <link href="../styles/stylesheet.css" rel="stylesheet" type="text/css" />
+    <!-- <script type="module" src="../scripts/ipub.js" fetchpriority="high"></script> -->
+    <script defer="true" src="../scripts/ipub.js" fetchpriority="high">
+      <!---->
+    </script>
   </head>
   <body xmlns:epub="http://www.idpf.org/2007/ops" class="body">
-    <section data-ipub-element="page" id="page01">
-      <span data-ipub-element="image">
-        <img src="../images/image0001.png"/>
-      </span>
-      <!-- 
-		  This in the UI would be an "Point Interaction" or just "Interaction". The
-		  editor can just place it on some point the page, and adjust it's size.
+    <main data-ipub-element="content">
+      <section data-ipub-element="page" id="page01">
+        <span data-ipub-element="image">
+          <img src="../images/image0001.png" />
+        </span>
+        <!-- 
+        This in the UI would be an "Point Interaction" or just "Interaction". The
+        editor can just place it on some point the page, and adjust it's size.
 
-		  The action is "open link", this action should have a warning to the reader, 
-		  to make sure they don't open malicious links.
-	  -->
-      <!-- 
-		  The "rel" will have "nofollow", "noopener" and "noreferrer" when the link
-		  is to a domain different from the project's one.
-	  -->
-      <a data-ipub-element="interaction" style="--ipub-x:6%;--ipub-y:88.5%;--ipub-size:3rem;--ipub-radius:100%;--ipub-origin-offset-x:-50%;--ipub-origin-offset-y:-50%;" id="int-httpsguzone" href="https://krita.org" target="_blank" referrerpolicy="same-origin" rel="external nofollow noopener noreferrer"><!-- 
-		  This would be generated if the editor doesn't specify a accessibility text,
-		  the in quotations text would be fetched from the site's title when the link is created
-		  if possible.
-		-->
-		  Go to "Krita | Digital Paiting. Creative Freedom"
-      </a>
-      <!-- 
-		  This in the UI would be an "Area Interaction". The editor would first place
-		  the first top-left point, and then the bottom-right one, to select an area/size
-		  of the interaction.
+        The action is "open link", this action should have a warning to the reader, 
+        to make sure they don't open malicious links.
+      -->
+        <!-- 
+        The "rel" will have "nofollow", "noopener" and "noreferrer" when the link
+        is to a domain different from the project's one.
+      -->
+        <a data-ipub-element="interaction" data-ipub-variant="point"
+        style="--ipub-x:6%;--ipub-y:88.5%;--ipub-width:10%;--ipub-radius:100%;--ipub-origin-offset-x:-50%;--ipub-origin-offset-y:-50%;--ipub-ratio:1/1;"
+        id="int-httpsguzone" href="https://krita.org" target="_blank" referrerpolicy="same-origin"
+        rel="external nofollow noopener noreferrer">
+        <!-- 
 
-		  The action is "go to page".
-	  -->
-      <a data-ipub-element="interaction" style="--ipub-x:76%;--ipub-y:90%;--ipub-width:11.5%;--ipub-height:8%;" id="int-httpsguzone" href="section0001.xhtml#page03"><!-- 
-		  This would be generated if the editor doesn't specify a accessibility text.
-		  The in quotations text would be the title of the page if it has one, otherwise
-		  it's ID is used (RFC, we could just place the text as "Go to page", since the IDs.
-		  may not be human-readable).
-	  -->
-		  Go to page "page03"
-      </a>
-    </section>
-    <section data-ipub-element="page" id="page02">
-      <span data-ipub-element="image">
-        <img src="../images/image0002.png"/>
-      </span>
-    </section>
-    <section data-ipub-element="page" id="page03">
-      <span data-ipub-element="image">
-        <img src="../images/image0003.png"/>
-      </span>
-    </section>
-    <section data-ipub-element="page" id="page04">
-      <span data-ipub-element="image">
-        <img src="../images/image0004.png"/>
-      </span>
-    </section>
+        This would be generated if the editor doesn't specify a accessibility text,
+        the in quotations text would be fetched from the site's title when the link is created
+        if possible.
+      -->
+        Go to "Krita | Digital Paiting. Creative Freedom"</a>
+        <!-- 
+        This in the UI would be an "Area Interaction". The editor would first place
+        the first top-left point, and then the bottom-right one, to select an area/size
+        of the interaction.
+
+        The action is "go to page".
+      -->
+        <a data-ipub-element="interaction" data-ipub-variant="area"
+        style="--ipub-x:76%;--ipub-y:90%;--ipub-width:11.5%;--ipub-height:8%;" id="int-httpsguzone"
+        href="section0001.xhtml#page03">
+        <!-- 
+        This would be generated if the editor doesn't specify a accessibility text.
+        The in quotations text would be the title of the page if it has one, otherwise
+        it's ID is used (RFC, we could just place the text as "Go to page", since the IDs.
+        may not be human-readable).
+      -->
+        Go to page "page03"</a>
+        <!-- 
+        TODO: Analyse if area and point interactions should be saved as the same type of element
+        and if the "data-ipub-variant" should be a thing. This pretty much depends on how much
+        we want the editor to "guess" what controls to provide the user with.
+      -->
+      </section>
+    </main>
   </body>
 </html>
-
