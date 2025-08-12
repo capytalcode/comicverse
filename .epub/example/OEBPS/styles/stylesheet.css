@@ -24,12 +24,13 @@
   left: var(--ipub-x, 0%);
   top: var(--ipub-y, 0%);
   border-radius: var(--ipub-radius, unset);
-  width: var(--ipub-width, var(--ipub-size, unset));
-  height: var(--ipub-height, var(--ipub-size, unset));
+  width: var(--ipub-width, unset);
+  height: var(--ipub-height, unset);
   transform: translate(
     var(--ipub-origin-offset-x, 0%),
     var(--ipub-origin-offset-y, 0%)
   );
+  aspect-ratio: var(--ipub-ratio, unset);
   /* 
   * The opacity would be, by default, zero. Here it is 0.3 for easier debugging and
   * showing of the example ebook 
